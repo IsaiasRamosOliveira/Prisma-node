@@ -16,16 +16,28 @@ model User {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Cart       Cart[]
 
   @@map("users")
 }
 
 model Product {
-  id    String  @id @default(uuid())
-  name  String 
-  price Decimal
+  id        String   @id @default(uuid())
+  name      String
+  price     Decimal
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updateAt  DateTime @updatedAt
+  Cart       Cart[]
 
   @@map("products")
+}
+
+model Cart {
+  id         String  @id @default(uuid())
+  id_user    String
+  user       User    @relation(fields: [id_user], references: [id])
+  id_product String
+  product    Product @relation(fields: [id_product], references: [id])
+
+  @@map("cart")
 }
