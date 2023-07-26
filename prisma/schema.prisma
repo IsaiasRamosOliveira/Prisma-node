@@ -16,7 +16,7 @@ model User {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Cart       Cart[]
+  Cart       Cart[] @relation("user")
 
   @@map("users")
 }
@@ -27,17 +27,17 @@ model Product {
   price     Decimal
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
-  Cart       Cart[]
+  Cart       Cart[] @relation("product")
 
   @@map("products")
 }
 
 model Cart {
-  id         String  @id @default(uuid())
   id_user    String
-  user       User    @relation(fields: [id_user], references: [id])
+  user       User    @relation("user", fields: [id_user], references: [id])
   id_product String
-  product    Product @relation(fields: [id_product], references: [id])
+  product    Product @relation("product",fields: [id_product], references: [id])
 
+  @@id([id_user, id_product])
   @@map("cart")
 }
